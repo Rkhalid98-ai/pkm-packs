@@ -21,12 +21,21 @@ plan's biggest risk: unlike Whatnot or TikTok Live, nobody finds us by default (
 
 ## P0: Set up to measure (this week)
 
-- [ ] **(Claude)** Save every signup, and where it came from, in a free Cloudflare D1 database, and
-      keep the Discord ping too. Today signups exist only as Discord messages, which makes them hard to
-      count, compare by channel, or export for the launch email.
-  - **(you)** Create the database in the Cloudflare dashboard; Claude will give you the steps.
-- [ ] **(Claude)** Record where each signup came from: the `utm_source` tag and the referring site.
-      Every link we post then gets its own tag, for example `ripwithme.com/?utm_source=tiktok`.
+- [x] **(Claude)** Save every signup, and where it came from, in a free Cloudflare D1 database, and
+      keep the Discord ping too. Signups go to `ripwithme-launch-list`, one row per email, and new ones
+      still ping Discord. Counting by source and exporting are in the README (2026-11-15).
+  - [x] **(you)** Create the database in the Cloudflare dashboard (2026-11-15).
+  - [ ] **(you)** Before it's deployed, add the column for the ideas box below: run
+        `ALTER TABLE signups ADD COLUMN ideas TEXT;` in the D1 Console.
+  - [ ] **(you)** Once it's deployed, open `ripwithme.com/?utm_source=test` in a private window and
+        sign up. Check that it reaches Discord ("via test") and D1 (`npm run signups:count`), then
+        remove it in the D1 Console: `DELETE FROM signups WHERE utm_source = 'test';`. This also
+        covers the test signup in [01](01-website.md).
+- [x] **(Claude)** Record where each signup came from: the `utm_source` tag and the referring site,
+      taken from the visitor's first page view. Every link we post then gets its own tag, for example
+      `ripwithme.com/?utm_source=tiktok` (2026-11-15).
+- [x] **(Claude)** Add an optional "What would you like to see?" box to the signup form. Answers are
+      saved with the signup and shown in the Discord ping (2026-11-15).
 - [ ] **(you)** Turn on Cloudflare Web Analytics: Pages project → **Metrics** → enable Web Analytics.
 - [ ] **(Claude)** Add a share image, so links posted anywhere show a preview card instead of a bare
       URL.
@@ -55,8 +64,8 @@ YouTube Shorts.
       to get people involved.
 - [ ] **(Claude)** Add "Join our Discord" next to the launch list on the site once the server is
       public.
-- [ ] **(you)** Check the numbers every week: signups by source. Do more of what works and drop what
-      doesn't.
+- [ ] **(you)** Check the numbers every week: signups by source, and the ideas people send. Do more
+      of what works and drop what doesn't.
 
 ## P2: Countdown (when 02 and 03 are nearly done)
 

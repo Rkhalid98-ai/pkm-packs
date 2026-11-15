@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Sofia_Sans, Sofia_Sans_Extra_Condensed } from "next/font/google";
+import { FirstTouch } from "@/components/FirstTouch";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
 import { site } from "@/lib/site";
@@ -40,6 +41,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="en" className={`${sofia.variable} ${sofiaExtraCondensed.variable}`}>
       <body className="flex min-h-dvh flex-col">
+        <FirstTouch />
         <a
           href="#main"
           className="sr-only z-50 rounded-lg bg-gold px-4 py-3 font-bold text-playmat-deep focus:not-sr-only focus:fixed focus:left-4 focus:top-4"

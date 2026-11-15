@@ -247,7 +247,7 @@ This isn't legal advice. It's the list of things to settle, with an accountant a
 ## 10. Roadmap
 
 ### Phase 0: Set up and validate
-- **Pre-launch website (built):** home, how it works, shop with placeholder products, product pages, FAQ, and draft Terms, Refund, and Privacy pages, plus a launch-list signup that posts to Discord. A static Next.js export on Cloudflare Pages; see the README to run or deploy it. Before launch, swap in real products and our own photos.
+- **Pre-launch website (built):** home, how it works, shop with placeholder products, product pages, FAQ, and draft Terms, Refund, and Privacy pages, plus a launch-list signup that's saved, with where it came from, in a free Cloudflare D1 database and posted to Discord. A static Next.js export on Cloudflare Pages; see the README to run or deploy it. Before launch, swap in real products and our own photos.
 - **Hype and the launch list:** while the rest of Phase 0 happens, build an audience on short-form video and in Discord, and grow the launch list toward a signup goal. The launch list gets a 24-hour head start on launch day. Details in [checklist/05](../checklist/05-hype-and-launch-list.md).
 - Run the trademark search, register ripwithme.com, and work through the checklist in section 8.
 - Set up the Discord server and one opener station, and make test calls until the video and recordings are solid.

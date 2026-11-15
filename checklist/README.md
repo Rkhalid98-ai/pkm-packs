@@ -16,10 +16,10 @@ What's done and what's next, following [docs/PLAN.md](../docs/PLAN.md). Items ar
 The focus now is building hype and growing the launch list ([05](05-hype-and-launch-list.md)), while
 the Discord server, the openers, and the business get set up in the background.
 
-1. **(Claude)** Save signups, and where they came from, in a database we can count and export. ([05](05-hype-and-launch-list.md))
+1. **(you)** Add the `ideas` column in the D1 Console. Once the launch-list database is deployed, send
+   one test signup from `ripwithme.com/?utm_source=test` and check it lands in Discord and D1. ([05](05-hype-and-launch-list.md))
 2. **(you)** Claim the TikTok, Instagram, YouTube, and X handles, with ripwithme.com in each bio. ([05](05-hype-and-launch-list.md))
 3. **(you)** Turn on Web Analytics; **(Claude)** add the share image. ([05](05-hype-and-launch-list.md))
-4. **(you)** Send one real signup from ripwithme.com and check it lands in Discord. ([01](01-website.md))
-5. **(you)** Set up `hello@ripwithme.com` with Email Routing. ([01](01-website.md))
-6. **(you)** Trademark search and 2FA on every account. ([02](02-business-and-legal.md))
-7. **(you)** Create the Rip With Me Discord server. ([03](03-openings-and-pilot.md))
+4. **(you)** Set up `hello@ripwithme.com` with Email Routing. ([01](01-website.md))
+5. **(you)** Trademark search and 2FA on every account. ([02](02-business-and-legal.md))
+6. **(you)** Create the Rip With Me Discord server. ([03](03-openings-and-pilot.md))

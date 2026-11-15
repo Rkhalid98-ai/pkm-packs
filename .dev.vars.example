@@ -1,3 +1,4 @@
 # Copy this file to .dev.vars (never commit .dev.vars) for `npm run cf:dev`.
+# Optional: without it, signups are still saved to the local D1, with no Discord ping.
 # Discord: Server Settings → Integrations → Webhooks → New Webhook → Copy Webhook URL
 DISCORD_WEBHOOK_URL=https://discord.com/api/webhooks/000000000000000000/replace-with-your-token

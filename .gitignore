@@ -43,3 +43,6 @@ next-env.d.ts
 # Cloudflare local state and secrets
 .wrangler/
 .dev.vars
+
+# Launch-list exports (npm run signups:export); they hold emails
+/exports/

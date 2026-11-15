@@ -5,7 +5,7 @@ Live one-on-one Pokémon TCG openings. Buyers purchase sealed packs, ETBs, and b
 **Status:** pre-launch website, live at [ripwithme.com](https://ripwithme.com). No checkout yet. The full plan is in [docs/PLAN.md](docs/PLAN.md); what's done and what's next is in [checklist/](checklist/README.md).
 
 - **Site:** Next.js 16 static export (`src/`). `next build` writes plain HTML/CSS/JS to `out/`.
-- **Launch list:** `functions/api/waitlist.ts`, a Cloudflare Pages Function that validates an email and posts it to a Discord channel through a webhook.
+- **Launch list:** `functions/api/waitlist.ts`, a Cloudflare Pages Function that validates an email, saves it with where the visitor came from to a Cloudflare D1 database (`ripwithme-launch-list`, table in `migrations/`), and posts new signups to a Discord channel through a webhook. `src/lib/firstTouch.ts` records `utm_source` and the referring site on a visitor's first page view.
 - **Hosting:** Cloudflare Pages (free tier). When v1 needs checkout and the Discord bot, the plan moves the app to Railway (PLAN §7); drop `output: "export"` in `next.config.ts` then.
 
 ## Run it locally
@@ -18,9 +18,32 @@ npm run dev        # http://localhost:3000, the quickest way to work on the desi
 Under `npm run dev` the Cloudflare function isn't running, so a launch-list signup is logged to the browser console instead of being sent. To test the real endpoint:
 
 ```sh
-cp .dev.vars.example .dev.vars   # then paste your Discord webhook URL into it
-npm run cf:dev                   # builds, then serves site + function at http://localhost:8788
+cp .dev.vars.example .dev.vars   # optional: paste a Discord webhook URL into it to get pings
+npm run cf:dev                   # builds, sets up a local D1, then serves site + function at http://localhost:8788
 ```
+
+Local signups go to a local copy of the database in `.wrangler/`, never the live one. Look at them with `npx wrangler d1 execute DB --local --command "SELECT * FROM signups"`.
+
+## Launch list: counts and exports
+
+Signups live in the D1 database `ripwithme-launch-list`, one row per email (a repeat signup keeps the first row): `email`, `utm_source`, `referrer` (the referring site), `page` (where they signed up), `ideas` (the optional "What would you like to see?" box, up to 500 characters), and `created_at` (UTC). Tag every link we post, for example `ripwithme.com/?utm_source=tiktok`; many in-app browsers send no referrer, so the tag is often the only clue.
+
+**Signups by source**, in the dashboard (**Storage & Databases → D1 SQL database → ripwithme-launch-list → Console**) or with `npm run signups:count`:
+
+```sql
+SELECT COALESCE(utm_source, referrer, 'direct') AS source, COUNT(*) AS signups
+FROM signups GROUP BY source ORDER BY signups DESC;
+```
+
+**What people want to see**, newest first. Each one also shows up in the Discord ping.
+
+```sql
+SELECT created_at, email, ideas FROM signups WHERE ideas IS NOT NULL ORDER BY created_at DESC;
+```
+
+**Export the list:** `npm run signups:export` writes `exports/signups-YYYY-MM-DD.csv` (git-ignored, since it holds emails). Both npm scripts read the live database, so run `npx wrangler login` once first.
+
+When v1 moves to Railway (PLAN §7), export the list and load it into Postgres.
 
 ## Where to change things
 
@@ -52,6 +75,7 @@ npm run cf:dev                   # builds, then serves site + function at http:/
 1. Push this repo to GitHub.
 2. In Cloudflare: **Workers & Pages → Create → Pages → Connect to Git**, pick the repo. Build command `npm run build`, output directory `out`. `.nvmrc` pins Node 22.
 3. **Settings → Variables and Secrets**: add `DISCORD_WEBHOOK_URL` as a **Secret** (Discord: Server Settings → Integrations → Webhooks).
-4. Custom domain: ripwithme.com is connected. Add `www.ripwithme.com` too, with a redirect to the root (see [checklist/01-website.md](checklist/01-website.md)).
+4. Launch-list database (done 2026-11-15): **Storage & Databases → D1 SQL database → Create Database**, named `ripwithme-launch-list`. In its **Console**, run each file in `migrations/` in order. Its Database ID goes in `wrangler.toml`, which is how the project gets the `DB` binding; the dashboard shows bindings from that file read-only.
+5. Custom domain: ripwithme.com is connected. Add `www.ripwithme.com` too, with a redirect to the root (see [checklist/01-website.md](checklist/01-website.md)).
 
 `scripts/fix-export-segments.mjs` runs after every build. It works around a Next 16.4 bug that misnames prefetch files when building on Windows; on Cloudflare's Linux builds it does nothing.

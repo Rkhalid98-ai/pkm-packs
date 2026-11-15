@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "lint": "eslint",
-    "cf:dev": "npm run build && wrangler pages dev ./out",
+    "cf:dev": "npm run build && wrangler d1 migrations apply DB --local && wrangler pages dev ./out",
+    "signups:count": "wrangler d1 execute DB --remote --command \"SELECT COALESCE(utm_source, referrer, 'direct') AS source, COUNT(*) AS signups FROM signups GROUP BY source ORDER BY signups DESC\"",
+    "signups:export": "node scripts/export-signups.mjs",
     "postbuild": "node scripts/fix-export-segments.mjs"
   },
   "dependencies": {

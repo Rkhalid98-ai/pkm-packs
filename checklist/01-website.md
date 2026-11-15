@@ -34,6 +34,7 @@ email works, and the shop shows our real launch products.
       (2026-11-15).
 - [ ] **(you)** Submit one real signup on ripwithme.com and confirm it shows up in the Discord channel.
       Claude only checked that the endpoint is live, so nothing test-related was posted to your channel.
+      Now done as part of the D1 test signup in [05](05-hype-and-launch-list.md), P0.
 - [ ] **(you)** Make `hello@ripwithme.com` receive mail. The footer, FAQ, and policies all use it.
       Cloudflare → your domain → **Email → Email Routing** (free): forward it to your Gmail.
 

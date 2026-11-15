@@ -1,12 +1,23 @@
 /**
  * POST /api/waitlist — Cloudflare Pages Function.
  *
- * Validates a launch-list signup and posts it to a Discord channel through a
+ * Validates a launch-list signup, saves it with where it came from and any
+ * ideas the visitor typed to the D1 database bound as DB (wrangler.toml; table
+ * in migrations/), and posts each new email to a Discord channel through a
  * webhook. Set DISCORD_WEBHOOK_URL as an encrypted variable in the Pages
- * project (Settings → Variables and Secrets) and in .dev.vars locally.
+ * project (Settings → Variables and Secrets) and in .dev.vars locally. Without
+ * it, signups are still saved.
  */
 
+/** The slice of Cloudflare's D1 API this function uses. */
+interface D1Database {
+  prepare(query: string): {
+    bind(...values: unknown[]): { run(): Promise<{ meta: { changes: number } }> };
+  };
+}
+
 interface Env {
+  DB?: D1Database;
   DISCORD_WEBHOOK_URL?: string;
 }
 
@@ -15,7 +26,7 @@ interface Context {
   env: Env;
 }
 
-const MAX_BODY_BYTES = 2_000;
+const MAX_BODY_BYTES = 4_000;
 /** Nobody types an email address this fast; treat it as a bot. */
 const MIN_HUMAN_MS = 1_500;
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
@@ -58,25 +69,55 @@ export const onRequestPost = async ({ request, env }: Context): Promise<Response
   const email = text(body.email, 120).toLowerCase();
   if (!EMAIL_RE.test(email)) return json({ ok: false, error: "email" }, 422);
   const page = text(body.page, 200) || "/";
+  // Where the visitor first came from (src/lib/firstTouch.ts).
+  const utmSource = text(body.utmSource, 100).toLowerCase() || null;
+  const referrer = text(body.referrer, 200).toLowerCase() || null;
+  // Optional "What would you like to see?" box.
+  const ideas = text(body.ideas, 500) || null;
 
-  if (!env.DISCORD_WEBHOOK_URL) {
-    console.error("DISCORD_WEBHOOK_URL is not set; signup not delivered.");
+  if (!env.DB) {
+    console.error("The DB binding is missing; signup not saved.");
     return json({ ok: false, error: "not_configured" }, 500);
   }
 
-  const res = await fetch(env.DISCORD_WEBHOOK_URL, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      username: "Rip With Me Launch List",
-      allowed_mentions: { parse: [] },
-      content: `New launch-list signup: **${md(email)}** (from ${md(page)})`,
-    }),
-  });
+  let isNew: boolean;
+  try {
+    const { meta } = await env.DB.prepare(
+      "INSERT INTO signups (email, utm_source, referrer, page, ideas) VALUES (?, ?, ?, ?, ?) ON CONFLICT (email) DO NOTHING",
+    )
+      .bind(email, utmSource, referrer, page, ideas)
+      .run();
+    isNew = meta.changes > 0;
+  } catch (err) {
+    console.error("Saving the signup failed", err);
+    return json({ ok: false, error: "save_failed" }, 500);
+  }
 
-  if (!res.ok) {
-    console.error("Discord webhook failed", res.status, await res.text());
-    return json({ ok: false, error: "delivery_failed" }, 502);
+  // Already on the list: answer the same way, so the form never reveals who is.
+  if (!isNew) return json({ ok: true });
+
+  if (!env.DISCORD_WEBHOOK_URL) {
+    console.warn("DISCORD_WEBHOOK_URL is not set; signup saved without a Discord ping.");
+    return json({ ok: true });
+  }
+
+  // The signup is already saved, so a failed ping is logged rather than shown.
+  const via = utmSource ?? referrer ?? "direct";
+  try {
+    const res = await fetch(env.DISCORD_WEBHOOK_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        username: "Rip With Me Launch List",
+        allowed_mentions: { parse: [] },
+        content:
+          `New launch-list signup: **${md(email)}** (from ${md(page)}, via ${md(via)})` +
+          (ideas ? `\nWants to see: ${md(ideas)}` : ""),
+      }),
+    });
+    if (!res.ok) console.error("Discord webhook failed", res.status, await res.text());
+  } catch (err) {
+    console.error("Discord webhook failed", err);
   }
   return json({ ok: true });
 };

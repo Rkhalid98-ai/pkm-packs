@@ -1,6 +1,15 @@
 # Cloudflare Pages project config (used by `wrangler pages dev` and Pages builds).
+# This file is the source of truth for the project's bindings; the dashboard
+# shows them read-only.
 # DISCORD_WEBHOOK_URL is a secret: set it in the Pages dashboard
 # (Settings → Variables and Secrets) and in .dev.vars for local runs.
 name = "ripwithme"
 pages_build_output_dir = "./out"
 compatibility_date = "2026-05-01"
+
+# Launch-list signups (functions/api/waitlist.ts). Table: migrations/.
+# `wrangler pages dev` uses a local copy in .wrangler/, never this database.
+[[d1_databases]]
+binding = "DB"
+database_name = "ripwithme-launch-list"
+database_id = "dda4caf8-7e6b-44bd-817d-29b1e2479cb7"

@@ -14,7 +14,9 @@ export default function PrivacyPage() {
       <h2>What we collect</h2>
       <ul>
         <li>
-          <strong>Launch list:</strong> your email address, if you join the list before we open.
+          <strong>Launch list:</strong> your email address, how you found us (the link or site that
+          sent you), and anything you tell us you&apos;d like to see, if you join the list before we
+          open.
         </li>
         <li>
           <strong>Orders:</strong> your email, shipping address, and what you bought.
@@ -39,14 +41,16 @@ export default function PrivacyPage() {
         <li>To process your order, run your opening, and ship your cards.</li>
         <li>To email you about your order: confirmation, reminders, results, and tracking.</li>
         <li>To email you once when we launch, if you joined the launch list.</li>
+        <li>To decide what to stock and build, using the ideas launch-list members send us.</li>
         <li>To resolve problems and payment disputes, using call recordings.</li>
       </ul>
       <p>We don&apos;t sell your information.</p>
 
       <h2>Who we share it with</h2>
       <p>
-        Only the services that run the shop: Stripe for payments, our email provider, Discord for
-        calls, and the carrier that delivers your order.
+        Only the services that run the shop: Cloudflare, which hosts the site and the launch list;
+        Stripe for payments; our email provider; Discord for calls and our team&apos;s notifications;
+        and the carrier that delivers your order.
       </p>
 
       <h2>How long we keep it</h2>
