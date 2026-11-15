@@ -1,6 +1,6 @@
 # Rip With Me: Project Plan
 
-**Status:** Draft v0.4 (2026-11-15). The pre-launch website is built (section 10, Phase 0). Everything else is still planning.
+**Status:** Draft v0.4 (2026-11-15). The pre-launch website is live at ripwithme.com (section 10, Phase 0). Everything else is still planning. Progress is tracked in [checklist/](../checklist/README.md).
 **What changed in v0.4:** we're building the website before buying the domain. It's a static pre-launch site on Cloudflare Pages (free), with a launch list, placeholder products, and draft policies. It moves to Railway with the bot once checkout needs a server.
 
 ## 1. Overview
@@ -61,7 +61,7 @@ Everything is settled. D9 and D10 are deferred until they become a problem; the 
 - **D2. The opening:** a live one-on-one video call, like FaceTime, in a private Discord voice channel that only the buyer and our team can see. The opener's overhead camera shows the desk. Buyers can talk and type, but their camera stays off to protect younger viewers. Every call is recorded on our side. If requiring Discord turns buyers away, the fallback is an in-browser call on our own site, using a video-call service such as Daily or LiveKit.
 - **D3. Timing:** on demand; the buyer starts their opening whenever they're ready. Openings take about 1–2 minutes per pack, so roughly 15 minutes for an ETB and up to an hour for a booster box.
 - **D4. Tracking:** no Discord needed to buy. One system with two front doors (the website and the Discord bot) and one database tracks each order from payment to shipping.
-- **D5. Name:** Rip With Me. ripwithme.com was unregistered on 2026-11-15; run a trademark search and register it first (section 8).
+- **D5. Name:** Rip With Me. ripwithme.com is registered and live (2026-11-15); the trademark search is still to do (section 8).
 - **D6. Market:** US only. That means USD, USPS, US sales tax, and US state rules on recording calls.
 - **D7. Inventory:** all shared. We record what each product cost, not who contributed it.
 - **D8. Products:** booster packs, ETBs, and booster boxes released in the past 12 months, managed in the admin dashboard.
@@ -216,18 +216,18 @@ Shipment      order(s), carrier, tracking number, postage cost, shipped at
 
 ## 8. Before launch: business and legal
 
-This isn't legal advice. It's the list of things to settle, with an accountant and a lawyer where needed, before taking real money.
+This isn't legal advice. It's the list of things to settle, with an accountant and a lawyer where needed, before taking real money. Track progress in [checklist/02-business-and-legal.md](../checklist/02-business-and-legal.md).
 
-- [ ] Search "Rip With Me" in the USPTO trademark database (tmsearch.uspto.gov), then register ripwithme.com and the matching social handles.
-- [ ] Form the business (an LLC is common), get an EIN, and open a business bank account.
-- [ ] Register for sales tax in our home state (if it has one) and set up Stripe Tax, which also flags when sales in other states cross their thresholds.
-- [ ] Apply to Stripe with an accurate description (we sell specific sealed products and open them live with the buyer, who receives the cards) and confirm it fits their terms. Payment processors restrict anything that looks like a game of chance.
-- [ ] Have a lawyer review the Terms of Sale, especially the recording notice and the 30-day rule (D12). Some states, California among them, require everyone on a call to agree to it being recorded. Review is a must before adding anything randomized, buy-backs, or giveaways tied to purchases: in most states, a prize plus chance plus a required purchase is the legal definition of a lottery.
-- [ ] Publish the Terms of Sale, Privacy Policy, and Refund Policy.
-- [ ] Set up the Discord server: channels, roles, rules, moderation, 2FA for the team, and Nitro for opener accounts.
-- [ ] Put together opener kits: camera, lights, playmat, OBS profile, and supplies.
-- [ ] Shipping: a USPS label service, mailers and boxes, and a rule for insuring high-value hits (for example, over $100).
-- [ ] Start bookkeeping on day one: cost per product, revenue, Stripe fees, and postage per order.
+- Search "Rip With Me" in the USPTO trademark database (tmsearch.uspto.gov) and register the matching social handles. (ripwithme.com is registered.)
+- Form the business (an LLC is common), get an EIN, and open a business bank account.
+- Register for sales tax in our home state (if it has one) and set up Stripe Tax, which also flags when sales in other states cross their thresholds.
+- Apply to Stripe with an accurate description (we sell specific sealed products and open them live with the buyer, who receives the cards) and confirm it fits their terms. Payment processors restrict anything that looks like a game of chance.
+- Have a lawyer review the Terms of Sale, especially the recording notice and the 30-day rule (D12). Some states, California among them, require everyone on a call to agree to it being recorded. Review is a must before adding anything randomized, buy-backs, or giveaways tied to purchases: in most states, a prize plus chance plus a required purchase is the legal definition of a lottery.
+- Publish the Terms of Sale, Privacy Policy, and Refund Policy.
+- Set up the Discord server: channels, roles, rules, moderation, 2FA for the team, and Nitro for opener accounts.
+- Put together opener kits: camera, lights, playmat, OBS profile, and supplies.
+- Shipping: a USPS label service, mailers and boxes, and a rule for insuring high-value hits (for example, over $100).
+- Start bookkeeping on day one: cost per product, revenue, Stripe fees, and postage per order.
 
 ## 9. Risks
 
@@ -248,6 +248,7 @@ This isn't legal advice. It's the list of things to settle, with an accountant a
 
 ### Phase 0: Set up and validate
 - **Pre-launch website (built):** home, how it works, shop with placeholder products, product pages, FAQ, and draft Terms, Refund, and Privacy pages, plus a launch-list signup that posts to Discord. A static Next.js export on Cloudflare Pages; see the README to run or deploy it. Before launch, swap in real products and our own photos.
+- **Hype and the launch list:** while the rest of Phase 0 happens, build an audience on short-form video and in Discord, and grow the launch list toward a signup goal. The launch list gets a 24-hour head start on launch day. Details in [checklist/05](../checklist/05-hype-and-launch-list.md).
 - Run the trademark search, register ripwithme.com, and work through the checklist in section 8.
 - Set up the Discord server and one opener station, and make test calls until the video and recordings are solid.
 - Recommended: run a few manual pilot openings with friends or existing customers, using Stripe Payment Links, a spreadsheet, and voice channels set up by hand. Time real calls and weigh real packages for each product type, so queue estimates and shipping prices come from real numbers.
@@ -266,7 +267,9 @@ Recording links for buyers, shipping-label integration, combined shipping, booki
 Public streams and highlight clips, referrals, and more product types.
 
 ## 11. Next steps
-1. Review the pre-launch website, then deploy it to Cloudflare Pages with the launch-list webhook.
-2. Run the trademark search and register ripwithme.com.
-3. Continue Phase 0: the Discord server, an opener station, and test calls.
-4. When we're ready to build, Phase 1 starts with the foundation milestone.
+The live list is in [checklist/README.md](../checklist/README.md). In short:
+1. Build hype and grow the launch list (checklist 05), starting with measuring signups by source.
+2. Finish the website launch: a test signup and the contact email.
+3. Trademark search, social handles, and 2FA on every account.
+4. Phase 0: the Discord server, an opener station, test calls, and pilot openings.
+5. When we're ready to build, Phase 1 starts with the foundation milestone.

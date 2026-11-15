@@ -2,7 +2,7 @@
 
 Live one-on-one Pokémon TCG openings. Buyers purchase sealed packs, ETBs, and booster boxes on our site, open them with one of us on a private video call in Discord, and get their cards shipped.
 
-**Status:** pre-launch website (design and copy), no checkout yet. The full plan is in [docs/PLAN.md](docs/PLAN.md).
+**Status:** pre-launch website, live at [ripwithme.com](https://ripwithme.com). No checkout yet. The full plan is in [docs/PLAN.md](docs/PLAN.md); what's done and what's next is in [checklist/](checklist/README.md).
 
 - **Site:** Next.js 16 static export (`src/`). `next build` writes plain HTML/CSS/JS to `out/`.
 - **Launch list:** `functions/api/waitlist.ts`, a Cloudflare Pages Function that validates an email and posts it to a Discord channel through a webhook.
@@ -52,6 +52,6 @@ npm run cf:dev                   # builds, then serves site + function at http:/
 1. Push this repo to GitHub.
 2. In Cloudflare: **Workers & Pages → Create → Pages → Connect to Git**, pick the repo. Build command `npm run build`, output directory `out`. `.nvmrc` pins Node 22.
 3. **Settings → Variables and Secrets**: add `DISCORD_WEBHOOK_URL` as a **Secret** (Discord: Server Settings → Integrations → Webhooks).
-4. Add the custom domain once ripwithme.com is registered, and update `url` in `src/lib/site.ts` if it differs.
+4. Custom domain: ripwithme.com is connected. Add `www.ripwithme.com` too, with a redirect to the root (see [checklist/01-website.md](checklist/01-website.md)).
 
 `scripts/fix-export-segments.mjs` runs after every build. It works around a Next 16.4 bug that misnames prefetch files when building on Windows; on Cloudflare's Linux builds it does nothing.
