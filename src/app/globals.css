@@ -1,0 +1,341 @@
+@import "tailwindcss";
+
+/*
+ * Rip With Me design tokens ("Playmat").
+ * Grounds are the deep violet of a playmat; gold is for primary actions and
+ * hit markers; the holo spectrum appears only on foil surfaces (the hero card).
+ */
+@theme {
+  --color-playmat: #1a1540;
+  --color-playmat-deep: #130f31;
+  --color-felt: #231c52;
+  --color-felt-hi: #2d2565;
+  --color-seam: #3d3479;
+  /* Form-field edges: 3:1 or better against every ground (WCAG 1.4.11). */
+  --color-field: #7a70b8;
+  --color-sleeve: #f5f2ff;
+  --color-haze: #bab2df;
+  --color-gold: #ffc857;
+  --color-gold-hi: #ffd88a;
+  --color-rec: #ff5468;
+  --color-holo-cyan: #7df3e1;
+  --color-holo-violet: #a98bff;
+  --color-holo-pink: #ff8ad8;
+  --color-holo-gold: #ffd66e;
+
+  --font-sans: var(--font-sofia), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-sofia-xc), var(--font-sofia), ui-sans-serif, sans-serif;
+
+  --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@layer base {
+  html {
+    color-scheme: dark;
+    background-color: var(--color-playmat);
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: var(--color-playmat);
+    color: var(--color-sleeve);
+    font-family: var(--font-sans);
+    font-size: 1.0625rem;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display);
+    text-wrap: balance;
+  }
+
+  p,
+  li,
+  dd {
+    text-wrap: pretty;
+  }
+
+  ::selection {
+    background-color: var(--color-gold);
+    color: var(--color-playmat-deep);
+  }
+
+  :focus-visible {
+    outline: 3px solid var(--color-gold);
+    outline-offset: 3px;
+    border-radius: 6px;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
+  }
+}
+
+@layer components {
+  .wrap {
+    width: 100%;
+    max-width: 76rem;
+    margin-inline: auto;
+    padding-inline: 1rem;
+  }
+  @media (min-width: 40rem) {
+    .wrap {
+      padding-inline: 1.5rem;
+    }
+  }
+  @media (min-width: 64rem) {
+    .wrap {
+      padding-inline: 2rem;
+    }
+  }
+
+  /* Type scale. Display sizes use the extra-condensed cut. */
+  .display-hero {
+    font-family: var(--font-display);
+    font-weight: 850;
+    font-size: clamp(3.75rem, 1.6rem + 7.6vw, 8.25rem);
+    line-height: 0.86;
+    letter-spacing: -0.005em;
+  }
+  .display-section {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: clamp(2.75rem, 1.7rem + 3.8vw, 5rem);
+    line-height: 0.9;
+  }
+  .title {
+    font-family: var(--font-display);
+    font-weight: 750;
+    font-size: 1.875rem;
+    line-height: 1;
+  }
+  .lead {
+    font-size: clamp(1.125rem, 1rem + 0.45vw, 1.3125rem);
+    line-height: 1.5;
+    color: var(--color-haze);
+  }
+
+  /* Buttons share a card-corner radius; pills are reserved for filter chips. */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    min-height: 3rem;
+    padding: 0 1.375rem;
+    border-radius: 0.75rem;
+    font-weight: 700;
+    font-size: 1rem;
+    line-height: 1;
+    cursor: pointer;
+    transition:
+      background-color 180ms ease,
+      border-color 180ms ease,
+      transform 120ms ease;
+  }
+  .btn:active {
+    transform: translateY(1px);
+  }
+  .btn-gold {
+    background-color: var(--color-gold);
+    color: var(--color-playmat-deep);
+  }
+  .btn-gold:hover {
+    background-color: var(--color-gold-hi);
+  }
+  .btn-line {
+    border: 1.5px solid var(--color-seam);
+    color: var(--color-sleeve);
+  }
+  .btn-line:hover {
+    border-color: var(--color-haze);
+    background-color: var(--color-felt);
+  }
+
+  .text-link {
+    color: var(--color-sleeve);
+    text-decoration: underline;
+    text-decoration-color: var(--color-gold);
+    text-decoration-thickness: 2px;
+    text-underline-offset: 0.2em;
+  }
+  .text-link:hover {
+    color: var(--color-gold);
+  }
+
+  /* Long-form pages (policies). */
+  .prose-rwm {
+    max-width: 42rem;
+    color: var(--color-haze);
+  }
+  .prose-rwm h2 {
+    margin-top: 3rem;
+    margin-bottom: 0.75rem;
+    font-weight: 750;
+    font-size: 2rem;
+    line-height: 1;
+    color: var(--color-sleeve);
+  }
+  .prose-rwm p,
+  .prose-rwm ul {
+    margin-top: 1rem;
+  }
+  .prose-rwm ul {
+    padding-left: 1.25rem;
+    list-style: disc;
+  }
+  .prose-rwm li + li {
+    margin-top: 0.5rem;
+  }
+  .prose-rwm li::marker {
+    color: var(--color-gold);
+  }
+  .prose-rwm strong {
+    color: var(--color-sleeve);
+    font-weight: 650;
+  }
+  .prose-rwm a {
+    color: var(--color-sleeve);
+    text-decoration: underline;
+    text-decoration-color: var(--color-gold);
+    text-underline-offset: 0.2em;
+  }
+}
+
+/* ---------- Hero call window ---------- */
+
+@property --mx {
+  syntax: "<percentage>";
+  inherits: true;
+  initial-value: 50%;
+}
+@property --my {
+  syntax: "<percentage>";
+  inherits: true;
+  initial-value: 50%;
+}
+
+.call-feed {
+  background:
+    radial-gradient(120% 85% at 45% 30%, #3a3290 0%, #241d5e 48%, #150f3a 100%);
+}
+/* The stitched edge of a playmat. */
+.call-feed::before {
+  content: "";
+  position: absolute;
+  inset: 0.875rem;
+  border: 1.5px dashed rgb(186 178 223 / 0.2);
+  border-radius: 1.125rem;
+  pointer-events: none;
+}
+
+.holo-rise {
+  animation: holo-rise 1100ms var(--ease-out-soft) 200ms both;
+}
+
+.holo {
+  --rx: 0deg;
+  --ry: 0deg;
+  position: relative;
+  aspect-ratio: 63 / 88;
+  border-radius: 5.5% / 4%;
+  padding: 4.5%;
+  background: linear-gradient(140deg, #f1efff 0%, #aaa3dc 38%, #f6f4ff 58%, #8e86c8 100%);
+  box-shadow:
+    0 2.5rem 4rem -1.5rem rgb(6 3 24 / 0.75),
+    0 0 0 1px rgb(255 255 255 / 0.25) inset;
+  transform: perspective(56rem) rotateX(var(--ry)) rotateY(var(--rx));
+  transition: transform 420ms var(--ease-out-soft);
+  will-change: transform;
+}
+.holo-inner {
+  position: relative;
+  height: 100%;
+  border-radius: 3.5% / 2.5%;
+  overflow: hidden;
+  background: #1d1748;
+}
+.holo-foil,
+.holo-glare {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+}
+.holo-foil {
+  background: repeating-linear-gradient(
+    115deg,
+    var(--color-holo-cyan) 0%,
+    var(--color-holo-violet) 6%,
+    var(--color-holo-pink) 12%,
+    var(--color-holo-gold) 18%,
+    var(--color-holo-cyan) 24%
+  );
+  background-size: 260% 260%;
+  background-position: var(--mx) var(--my);
+  mix-blend-mode: color-dodge;
+  opacity: 0.16;
+  animation: foil-sweep 1700ms var(--ease-out-soft) 350ms;
+}
+/* Like a real holo: the art window carries the strong foil, the frame a sheen. */
+.holo-foil--art {
+  opacity: 0.6;
+}
+.holo-glare {
+  background: radial-gradient(
+    farthest-corner circle at var(--mx) var(--my),
+    rgb(255 255 255 / 0.55) 0%,
+    rgb(255 255 255 / 0.12) 24%,
+    transparent 52%
+  );
+  mix-blend-mode: overlay;
+}
+
+.rec-dot {
+  animation: rec-blink 2.4s ease-in-out infinite;
+}
+
+@keyframes holo-rise {
+  from {
+    opacity: 0;
+    transform: translateY(2.5rem) rotate(-2deg) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes foil-sweep {
+  from {
+    --mx: 0%;
+    --my: 10%;
+  }
+  to {
+    --mx: 50%;
+    --my: 50%;
+  }
+}
+@keyframes rec-blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.35;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

@@ -1,7 +1,7 @@
 # Rip With Me: Project Plan
 
-**Status:** Draft v0.3 (2026-11-15). Planning only; no code yet.
-**What changed in v0.3:** we picked the name Rip With Me. We're always open. Unopened orders follow a 14-day refund rule and a 30-day rule. The shipping choice and the definition of a hit are deferred, with simple defaults for now. Every decision is settled, so the next step is Phase 0 (section 10).
+**Status:** Draft v0.4 (2026-11-15). The pre-launch website is built (section 10, Phase 0). Everything else is still planning.
+**What changed in v0.4:** we're building the website before buying the domain. It's a static pre-launch site on Cloudflare Pages (free), with a launch list, placeholder products, and draft policies. It moves to Railway with the bot once checkout needs a server.
 
 ## 1. Overview
 
@@ -154,7 +154,7 @@ These become our Terms of Sale; get them reviewed before launch.
 | Payments | Stripe Checkout + Stripe Tax | Hosted payment page, so card details never touch our servers; shipping, US sales tax, terms checkbox, and dispute tools built in |
 | Email | Resend + React Email | Simple API; templates written as components |
 | Admin sign-in | Sign in with Discord, limited to the team's accounts | Reuses the Discord app |
-| Hosting | Railway (website, bot, and database together) | One place for everything, including the always-on bot |
+| Hosting | Railway (website, bot, and database together) | One place for everything, including the always-on bot. Until then, the pre-launch site is a static export on Cloudflare Pages (free) |
 | Calls | Discord voice channels + OBS | See D2 |
 | Recordings | OBS → shared synced folder in v1 | Automatic upload later |
 
@@ -246,7 +246,8 @@ This isn't legal advice. It's the list of things to settle, with an accountant a
 
 ## 10. Roadmap
 
-### Phase 0: Set up and validate (no code)
+### Phase 0: Set up and validate
+- **Pre-launch website (built):** home, how it works, shop with placeholder products, product pages, FAQ, and draft Terms, Refund, and Privacy pages, plus a launch-list signup that posts to Discord. A static Next.js export on Cloudflare Pages; see the README to run or deploy it. Before launch, swap in real products and our own photos.
 - Run the trademark search, register ripwithme.com, and work through the checklist in section 8.
 - Set up the Discord server and one opener station, and make test calls until the video and recordings are solid.
 - Recommended: run a few manual pilot openings with friends or existing customers, using Stripe Payment Links, a spreadsheet, and voice channels set up by hand. Time real calls and weigh real packages for each product type, so queue estimates and shipping prices come from real numbers.
@@ -265,6 +266,7 @@ Recording links for buyers, shipping-label integration, combined shipping, booki
 Public streams and highlight clips, referrals, and more product types.
 
 ## 11. Next steps
-1. Run the trademark search and register ripwithme.com.
-2. Start Phase 0: the Discord server, an opener station, and test calls.
-3. When we're ready to build, Phase 1 starts with the foundation milestone.
+1. Review the pre-launch website, then deploy it to Cloudflare Pages with the launch-list webhook.
+2. Run the trademark search and register ripwithme.com.
+3. Continue Phase 0: the Discord server, an opener station, and test calls.
+4. When we're ready to build, Phase 1 starts with the foundation milestone.
